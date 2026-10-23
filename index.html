@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开学季 · 班级聚会邀请函</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #fdf8f0;
+    --cream-deep: #f5ece0;
+    --ink: #3a3226;
+    --ink-light: #6b5f4e;
+    --coral: #e8836b;
+    --coral-deep: #d06a52;
+    --mustard: #e8b04b;
+    --sage: #8ba888;
+    --sky: #9db8cc;
+    --paper-line: rgba(200,180,150,.35);
+  }
+  html, body {
+    min-height: 100%;
+    font-family: "Noto Serif SC", "Songti SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* 纸张纹理背景 */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image:
+      radial-gradient(ellipse at 15% 10%, rgba(232,176,75,.12) 0%, transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(232,131,107,.1) 0%, transparent 45%),
+      url("data:image/svg+xml,%3Csvg width='240' height='240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    z-index: 0;
+  }
+
+  /* 漂浮装饰元素 */
+  .deco {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.5;
+    animation: floatY 6s ease-in-out infinite;
+  }
+  .deco.d1 { top: 8%; left: 5%; font-size: 32px; animation-delay: 0s; }
+  .deco.d2 { top: 15%; right: 8%; font-size: 28px; animation-delay: -1.5s; }
+  .deco.d3 { bottom: 12%; left: 8%; font-size: 26px; animation-delay: -3s; }
+  .deco.d4 { bottom: 20%; right: 6%; font-size: 30px; animation-delay: -4.5s; }
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(4deg); }
+  }
+
+  .container {
+    position: relative;
+    z-index: 5;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+  }
+
+  /* ===== 邀请函主卡 ===== */
+  .invite-card {
+    background: var(--cream);
+    border-radius: 4px;
+    box-shadow:
+      0 1px 3px rgba(58,50,38,.08),
+      0 12px 40px rgba(58,50,38,.12),
+      inset 0 0 0 1px rgba(200,180,150,.3),
+      inset 0 0 0 8px rgba(253,248,240,.6),
+      inset 0 0 0 9px rgba(232,176,75,.25);
+    padding: 50px 40px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+  .invite-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--coral), var(--mustard), var(--sage), var(--sky), var(--coral));
+    background-size: 200% 100%;
+    animation: gradientShift 6s linear infinite;
+  }
+  @keyframes gradientShift {
+    0% { background-position: 0% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* 徽章 */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(232,176,75,.15);
+    border: 1px solid rgba(232,176,75,.5);
+    color: var(--coral-deep);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 22px;
+  }
+
+  .invite-title {
+    font-size: clamp(26px, 5vw, 38px);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .invite-title .accent {
+    color: var(--coral);
+    position: relative;
+  }
+  .invite-title .accent::after {
+    content: '';
+    position: absolute;
+    bottom: 2px; left: 0; right: 0;
+    height: 8px;
+    background: rgba(232,176,75,.35);
+    z-index: -1;
+    border-radius: 4px;
+  }
+
+  .invite-sub {
+    font-size: 15px;
+    color: var(--ink-light);
+    line-height: 1.9;
+    margin-bottom: 32px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ===== 信息网格 ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 32px;
+  }
+  .info-item {
+    background: rgba(245,236,224,.7);
+    border: 1px solid var(--paper-line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .info-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(58,50,38,.08);
+  }
+  .info-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    line-height: 1.3;
+  }
+  .info-content { flex: 1; min-width: 0; }
+  .info-label {
+    font-size: 11px;
+    color: var(--ink-light);
+    letter-spacing: 0.12em;
+    margin-bottom: 3px;
+    font-weight: 500;
+  }
+  .info-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  /* ===== 报名模块 ===== */
+  .section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 18px;
+    background: var(--coral);
+    border-radius: 2px;
+  }
+  .section-desc {
+    font-size: 13px;
+    color: var(--ink-light);
+    margin-bottom: 20px;
+  }
+
+  .form-group { margin-bottom: 16px; }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 7px;
+    letter-spacing: 0.03em;
+  }
+  .form-label .req { color: var(--coral); margin-left: 2px; }
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    background: #fff;
+    border: 1.5px solid var(--paper-line);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: var(--mustard);
+    box-shadow: 0 0 0 3px rgba(232,176,75,.15);
+  }
+  .form-input.error, .form-textarea.error {
+    border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(232,131,107,.12);
+  }
+  .form-textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+  .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+  .radio-chip {
+    position: relative;
+    cursor: pointer;
+  }
+  .radio-chip input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .radio-chip span {
+    display: inline-block;
+    padding: 9px 18px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-light);
+    background: #fff;
+    border: 1.5px solid var(--paper-line);
+    border-radius: 20px;
+    transition: all 0.2s;
+  }
+  .radio-chip input:checked + span {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(232,131,107,.35);
+  }
+  .radio-chip:hover span { border-color: var(--coral); }
+
+  .checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    cursor: pointer;
+    margin-top: 4px;
+  }
+  .checkbox-row input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--coral);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    color: #fff;
+    background: linear-gradient(135deg, var(--coral), var(--coral-deep));
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    transition: all 0.25s;
+    box-shadow: 0 8px 24px rgba(232,131,107,.35);
+    margin-top: 8px;
+  }
+  .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 30px rgba(232,131,107,.45);
+  }
+  .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled {
+    background: var(--sage);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+  }
+
+  /* 成功提示 */
+  .success-box {
+    display: none;
+    text-align: center;
+    padding: 36px 20px;
+    background: rgba(139,168,136,.08);
+    border: 1.5px dashed var(--sage);
+    border-radius: 14px;
+    margin-top: 20px;
+    animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
+  }
+  .success-box.show { display: block; }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .success-icon { font-size: 48px; margin-bottom: 12px; }
+  .success-title { font-size: 19px; font-weight: 700; color: var(--sage); margin-bottom: 8px; }
+  .success-text { font-size: 14px; color: var(--ink-light); line-height: 1.8; }
+
+  /* ===== 祝福语区 ===== */
+  .blessing-section {
+    margin-top: 36px;
+    padding-top: 36px;
+    border-top: 1.5px dashed var(--paper-line);
+  }
+  .blessing-card {
+    background: linear-gradient(150deg, rgba(232,176,75,.1), rgba(139,168,136,.08));
+    border-radius: 14px;
+    padding: 28px 26px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(232,176,75,.25);
+  }
+  .blessing-card::before {
+    content: '“';
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    font-size: 90px;
+    font-family: Georgia, serif;
+    color: rgba(232,176,75,.2);
+    line-height: 1;
+  }
+  .blessing-text {
+    font-size: 16px;
+    line-height: 2;
+    color: var(--ink);
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+    min-height: 96px;
+    letter-spacing: 0.02em;
+  }
+  .blessing-text .typed { white-space: pre-wrap; }
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: var(--coral);
+    vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+    margin-left: 1px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .blessing-footer {
+    margin-top: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+  .blessing-sign {
+    font-size: 12.5px;
+    color: var(--ink-light);
+    letter-spacing: 0.08em;
+  }
+  .refresh-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--coral-deep);
+    background: rgba(232,131,107,.1);
+    border: 1px solid rgba(232,131,107,.3);
+    padding: 7px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .refresh-btn:hover {
+    background: rgba(232,131,107,.18);
+    transform: rotate(-3deg);
+  }
+
+  /* ===== 页脚 ===== */
+  .footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 12px;
+    color: var(--ink-light);
+    letter-spacing: 0.15em;
+    opacity: 0.7;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 13px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 10px 30px rgba(0,0,0,.3);
+    z-index: 100;
+    transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--sage); }
+  .toast.error { background: var(--coral-deep); }
+
+  /* 响应式 */
+  @media (max-width: 640px) {
+    .container { padding: 24px 14px 44px; }
+    .invite-card { padding: 36px 22px 32px; }
+    .info-grid { grid-template-columns: 1fr; gap: 10px; }
+    .invite-sub { font-size: 14px; }
+    .deco { display: none; }
+    .blessing-card { padding: 22px 18px; }
+    .blessing-text { font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 漂浮装饰 -->
+<div class="deco d1">🎒</div>
+<div class="deco d2">📚</div>
+<div class="deco d3">✏️</div>
+<div class="deco d4">🌟</div>
+
+<div class="container">
+  <div class="invite-card">
+    <div class="badge">✦ 开学季 · 班级聚会 ✦</div>
+
+    <h1 class="invite-title">
+      新的学期，<br><span class="accent">我们</span>在这里重逢
+    </h1>
+
+    <p class="invite-sub">
+      长假结束，书页翻新。在这个蝉声渐歇、秋意初来的季节，
+      我们即将回到熟悉的教室，见到久违的彼此。
+      这一次，让我们暂时放下课本，一起聊聊这个夏天的故事，为新的征程干杯。
+    </p>
+
+    <!-- 聚会信息 -->
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-icon">📅</div>
+        <div class="info-content">
+          <div class="info-label">聚会时间</div>
+          <div class="info-value">9月5日 周六 15:00</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">📍</div>
+        <div class="info-content">
+          <div class="info-label">聚会地点</div>
+          <div class="info-value">学校旁 · 时光咖啡馆</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">👥</div>
+        <div class="info-content">
+          <div class="info-label">参与对象</div>
+          <div class="info-value">全班同学 &amp; 班主任</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <div class="info-icon">🎈</div>
+        <div class="info-content">
+          <div class="info-label">活动内容</div>
+          <div class="info-value">自由聊天 · 小游戏 · 合影</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 报名模块 -->
+    <div class="section-title">在线报名</div>
+    <div class="section-desc">请填写以下信息，让我们提前为你准备好座位和小礼物 🎁</div>
+
+    <form id="signupForm" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="name">你的名字<span class="req">*</span></label>
+        <input type="text" id="name" class="form-input" placeholder="请输入姓名或昵称" autocomplete="name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="contact">联系方式（手机/微信）<span class="req">*</span></label>
+        <input type="text" id="contact" class="form-input" placeholder="方便我们与你确认" autocomplete="tel">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">是否到场<span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-chip">
+            <input type="radio" name="attend" value="yes" checked>
+            <span>一定到场</span>
+          </label>
+          <label class="radio-chip">
+            <input type="radio" name="attend" value="maybe">
+            <span>争取赶来</span>
+          </label>
+          <label class="radio-chip">
+            <input type="radio" name="attend" value="no">
+            <span>这次缺席</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">想对大家说的话（选填）</label>
+        <textarea id="message" class="form-textarea" placeholder="这个夏天你有什么新鲜事？有什么想对老同学说的？"></textarea>
+      </div>
+
+      <label class="checkbox-row">
+        <input type="checkbox" id="agree">
+        <span>我愿意在聚会当天参与合影，并把照片留在班级相册中。</span>
+      </label>
+
+      <button type="submit" class="submit-btn" id="submitBtn">提交报名 ✦</button>
+    </form>
+
+    <div class="success-box" id="successBox">
+      <div class="success-icon">🎉</div>
+      <div class="success-title">报名成功！</div>
+      <div class="success-text" id="successText">期待与你在开学聚会上相见。</div>
+    </div>
+
+    <!-- 新学期祝福 -->
+    <div class="blessing-section">
+      <div class="section-title">新学期 · 寄语</div>
+      <div class="section-desc">每一段旅程都值得被祝福，收下这句话，再出发。</div>
+
+      <div class="blessing-card">
+        <div class="blessing-text">
+          <span class="typed" id="typedText"></span><span class="cursor" id="cursor"></span>
+        </div>
+        <div class="blessing-footer">
+          <span class="blessing-sign">— 致每一个重新出发的你</span>
+          <button class="refresh-btn" id="refreshBtn" type="button">↻ 换一句</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">开学季 · 班级聚会邀请函</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   祝福语打字机效果
+   ============================================================ */
+const blessings = [
+  '愿你新学期的每一天，都像清晨的第一缕光，明亮、温柔，且充满可能。',
+  '书页翻到新的一章，故事才刚刚开始。愿你在新学期里，写出自己喜欢的剧情。',
+  '不必急着成为很厉害的人，先成为很快乐的人。新学期，慢慢来，也很好。',
+  '愿你在新的学期里，有目标可追，有朋友可依，有热汤可喝，有星光可看。',
+  '每一次开学，都是一次重新出发的机会。愿你带着夏天的勇气，走向秋天的收获。',
+  '愿你的努力都有回响，愿你的期待都不落空。新学期，加油！',
+  '把假期的懒散收一收，把心里的热爱亮一亮。新学期，我们继续并肩。',
+  '愿你在这个学期里，遇见更好的自己，也别忘了回头看看，我们一直都在。'
+];
+
+const typedEl = document.getElementById('typedText');
+const cursorEl = document.getElementById('cursor');
+let typeTimer = null;
+let currentBlessingIndex = -1;
+
+function typeText(text) {
+  clearTimeout(typeTimer);
+  typedEl.textContent = '';
+  cursorEl.style.display = 'inline-block';
+  let i = 0;
+  function step() {
+    if (i <= text.length) {
+      typedEl.textContent = text.slice(0, i);
+      i++;
+      typeTimer = setTimeout(step, 45);
+    } else {
+      // 打字结束后光标闪烁一段时间后隐藏
+      setTimeout(() => { cursorEl.style.display = 'none'; }, 2000);
+    }
+  }
+  step();
+}
+
+function showRandomBlessing() {
+  let idx;
+  do {
+    idx = Math.floor(Math.random() * blessings.length);
+  } while (idx === currentBlessingIndex && blessings.length > 1);
+  currentBlessingIndex = idx;
+  typeText(blessings[idx]);
+}
+
+document.getElementById('refreshBtn').addEventListener('click', showRandomBlessing);
+
+// 页面加载后开始第一句
+setTimeout(showRandomBlessing, 600);
+
+/* ============================================================
+   报名表单
+   ============================================================ */
+const form = document.getElementById('signupForm');
+const nameInput = document.getElementById('name');
+const contactInput = document.getElementById('contact');
+const agreeInput = document.getElementById('agree');
+const submitBtn = document.getElementById('submitBtn');
+const successBox = document.getElementById('successBox');
+const successText = document.getElementById('successText');
+
+function showToast(msg, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast show ' + type;
+  clearTimeout(toast._timer);
+  toast._timer = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2400);
+}
+
+function clearError(el) {
+  el.classList.remove('error');
+}
+
+nameInput.addEventListener('input', () => clearError(nameInput));
+contactInput.addEventListener('input', () => clearError(contactInput));
+
+form.addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const name = nameInput.value.trim();
+  const contact = contactInput.value.trim();
+  const attend = form.querySelector('input[name="attend"]:checked').value;
+  const message = document.getElementById('message').value.trim();
+
+  // 校验
+  let hasError = false;
+  if (!name) {
+    nameInput.classList.add('error');
+    hasError = true;
+  }
+  if (!contact) {
+    contactInput.classList.add('error');
+    hasError = true;
+  }
+  if (hasError) {
+    showToast('请填写姓名和联系方式', 'error');
+    if (!name) nameInput.focus();
+    else contactInput.focus();
+    return;
+  }
+
+  // 模拟提交
+  submitBtn.disabled = true;
+  submitBtn.textContent = '提交中…';
+
+  setTimeout(() => {
+    submitBtn.disabled = false;
+    submitBtn.textContent = '提交报名 ✦';
+
+    // 根据出席意愿定制成功文案
+    let text = '';
+    if (attend === 'yes') {
+      text = `${name}，报名成功！期待在 9 月 5 日的聚会上见到你，我们为你留好了座位 🎈`;
+    } else if (attend === 'maybe') {
+      text = `${name}，已收到你的报名。希望你能赶来，大家都在等你哦～`;
+    } else {
+      text = `${name}，已收到你的回复。虽然这次不能到场，但班级永远为你留一个位置，下次见！`;
+    }
+    if (message) {
+      text += ` 你留下的那句话，我们也会带到现场。`;
+    }
+    successText.textContent = text;
+    successBox.classList.add('show');
+    showToast('报名提交成功！', 'success');
+
+    // 滚动到成功提示
+    successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 重置表单（保留成功提示）
+    form.reset();
+    document.querySelector('input[name="attend"][value="yes"]').checked = true;
+
+    // 3 秒后隐藏成功提示，允许再次报名
+    setTimeout(() => {
+      successBox.classList.remove('show');
+    }, 6000);
+  }, 900);
+});
+</script>
+</body>
+</html>
